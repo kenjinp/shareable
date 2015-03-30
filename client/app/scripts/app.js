@@ -8,16 +8,16 @@
  *
  * Main module of the application.
  */
-angular
-  .module('shareableApp', [
+
+
+var app = angular.module('shareableApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch'
-  ])
-  .config(function ($routeProvider) {
+]).config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -27,7 +27,15 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/posts', {
+        templateUrl: 'views/posts.html',
+        controller: 'PostsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
+}).factory('Post', ['$resource', function($resource) {
+  return $resource('/api/posts/:id.json', null, {
+    'update': { method:'PUT' }
   });
+}]);
